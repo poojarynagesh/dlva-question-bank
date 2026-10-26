@@ -15,7 +15,7 @@ Sources:
 | 1 | Site shell (theme, nav, search, KaTeX offline), question engine `assets/qbank.js` | done |
 | 2 | Question banks for Lectures 1–19 (Aug 4 – Oct 22) | done |
 | 3 | Solved sample midterm, mock paper generator, exam-format page | done |
-| 4 | Publish on GitHub Pages | done |
+| 4 | Publish on GitHub Pages | pending (needs your approval to create the repo) |
 | 5 | **Ongoing:** add a bank for every new lecture as its notes arrive | open |
 
 ### Lecture log
