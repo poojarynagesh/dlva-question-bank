@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock paper generator — DLVA Question Bank</title>
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/style.css">
+<script defer src="assets/vendor/katex/katex.min.js"></script>
+<script defer src="assets/vendor/katex/auto-render.min.js"></script>
+<script defer src="assets/search-index.js"></script>
+<script defer src="assets/lectures.js"></script>
+<script defer src="assets/qbank.js"></script>
+<script defer src="assets/site.js"></script>
+<script defer src="assets/mock.js"></script>
+</head>
+<body data-page="mock" data-root=".">
+<main class="content">
+
+<div class="hero">
+  <div class="kicker">Practice</div>
+  <h1>Mock paper generator</h1>
+  <p class="lead">A fresh paper in the midterm's format every time: 14 marks of MCQs, four 2-mark short questions and one 8-mark long question — 30 marks in 90 minutes — drawn at random from the lectures you choose. Answers stay hidden until you submit.</p>
+</div>
+
+<h2 id="setup">Set up the paper</h2>
+<div class="card">
+  <div class="mock-cfg">
+    <label>Scope<br>
+      <select id="mock-scope">
+        <option value="pre">Midterm syllabus (Lectures 1–13)</option>
+        <option value="post">After the midterm (Lectures 14 onwards)</option>
+        <option value="all">All lectures</option>
+        <option value="custom">Choose lectures…</option>
+      </select></label>
+    <label>Time limit<br>
+      <select id="mock-time"><option value="90">90 minutes (exam)</option><option value="60">60 minutes</option><option value="45">45 minutes</option><option value="0">No timer</option></select></label>
+    <button class="btn" type="button" id="mock-go">Generate paper</button>
+  </div>
+  <div id="mock-custom" class="small" style="margin-top:12px;display:none;flex-wrap:wrap;gap:6px 14px"></div>
+  <p class="small muted" id="mock-pool" style="margin-top:10px"></p>
+</div>
+
+<div id="mock-paper"></div>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,70 @@
+// Lecture 9 — Feature visualization, transfer learning, VGG, GoogLeNet, ResNet.
+(function () {
+  const R = String.raw;
+  (window.QB_ALL = window.QB_ALL || {})["L09"] = {
+    id: "L09",
+    points: [
+      R`<strong>Deconvnet</strong> (Zeiler &amp; Fergus): project an activation back to pixels — unpool using recorded max-pool <strong>switches</strong>, ReLU, transposed conv. Layer 1 edges/colours → 2 corners/textures → 3 parts → 4–5 class-specific objects.`,
+      R`<strong>Transfer learning</strong>: tap 4096-d FC6/FC7 features of an ImageNet model and train a linear classifier — works even on sketches and medical images.`,
+      R`ILSVRC top-5 error: ~26% (hand-crafted) → AlexNet 16.4% (8 layers) → VGG 7.3% (16–19) → GoogLeNet 6.7% (22) → ResNet 3.57% (152); human ≈ 5.1%.`,
+      R`<strong>VGG</strong>: only $3\times3$ convs (S=1, P=1) + 5 max pools. Two $3\times3$ = RF $5\times5$ with $18C^2$ vs $25C^2$ weights and two ReLUs; three = RF $7\times7$ ($27C^2$ vs $49C^2$). VGG-16: 138 M params, FC6 ≈ 102.8 M; activation memory concentrated in early layers.`,
+      R`<strong>GoogLeNet</strong>: Inception module (parallel $1\times1$, $3\times3$, $5\times5$, pool → concat). <strong>$1\times1$ bottleneck</strong>: $28^2\times256\to5\times5\times32$: 160.6 M MACs → 13.2 M with a 16-channel bottleneck. Auxiliary classifiers (loss weight 0.3, dropped at test). <strong>GAP</strong> instead of FC: ~5 M params.`,
+      R`<strong>Degradation</strong>: a plain 56-layer net has <em>higher training</em> error than a 20-layer one — an optimisation problem, not overfitting.`,
+      R`<strong>ResNet</strong>: $H(x)=F(x)+x$; $\partial H/\partial x=\partial F/\partial x+I$ → gradient highway; identity is easy ($F=0$). Shapes must match, otherwise a $1\times1$ (strided) projection. Bottleneck block $1\times1$ (64) → $3\times3$ (64) → $1\times1$ (256).`,
+    ],
+    mcq: [
+      { pts: 2, k: "compute", q: R`Compare three stacked $3\times3$ conv layers (stride 1, $C$ channels in and out, ReLU after each) with a single $7\times7$ conv layer ($C\to C$). Ignoring biases, which statements are true?`,
+        o: [R`Both have a $7\times7$ receptive field on the input`, R`The stack has $27C^2$ weights versus $49C^2$`, R`The stack applies three nonlinearities instead of one`, R`The stack can represent every function the $7\times7$ layer can, with exactly the same number of parameters`], a: [0, 1, 2],
+        x: R`RF $3\to5\to7$. $3\cdot9C^2=27C^2$, about 45% fewer weights. The stack is a constrained (factorised) family, not identical, and has fewer parameters.` },
+      { pts: 2, k: "trap", q: R`A plain 56-layer CNN has <em>higher training error</em> than a plain 20-layer CNN on the same data. Which statements are true?`,
+        o: [R`This is overfitting, so more data or dropout would fix it`, R`A 56-layer net could in principle match the 20-layer net by making the extra 36 layers identity mappings, so the problem is optimisation`, R`Residual blocks help because driving $F(x)$ to zero is easier than learning an identity through stacked nonlinear layers`, R`Deeper plain networks are always better if trained long enough`], a: [1, 2],
+        x: R`Overfitting raises <em>test</em> error while training error stays low. The existence of the identity-padded solution shows the deeper model is no less expressive; SGD just fails to find it. Residual form makes identity the default.` },
+      { pts: 1, single: true, k: "compute", q: R`A $28\times28\times192$ volume goes into a $5\times5$ conv with 32 filters (same padding). How many multiply–adds are needed without and with a $1\times1$ bottleneck that first reduces 192 → 16 channels?`,
+        o: [R`120.4 M without; 12.4 M with`, R`160.6 M without; 13.2 M with`, R`120.4 M without; 10.0 M with`, R`4.8 M without; 2.4 M with`], a: [0],
+        x: R`Without: $28^2\cdot32\cdot(25\cdot192)=120.4$ M. With: $28^2\cdot16\cdot192=2.41$ M plus $28^2\cdot32\cdot(25\cdot16)=10.04$ M → 12.4 M, ≈10× cheaper. (160.6 M / 13.2 M is the lecture's 256-channel example.)` },
+      { pts: 1, k: "trap", q: R`For a residual block $H(x)=F(x)+x$, which statements are true?`,
+        o: [R`$\partial H/\partial x=\partial F/\partial x+I$, so the gradient has a path that does not pass through the block's weight layers`, R`If the residual branch's last-layer weights are zero, the block computes the identity (before any final ReLU)`, R`The identity shortcut adds as many parameters as the residual branch`, R`When $F(x)$ halves the spatial size and doubles the channels, the shortcut needs a projection (e.g. a strided $1\times1$ conv)`], a: [0, 1, 3],
+        x: R`The identity shortcut is parameter-free; only projection shortcuts have weights.` },
+      { pts: 2, k: "compute", q: R`The last feature map is $7\times7\times1024$ and there are 1000 classes. Which statements are true?`,
+        o: [R`Flatten + FC to 1000 needs about 50.2 M parameters`, R`Global average pooling + FC to 1000 needs about 1.0 M parameters`, R`With GAP, the network can accept larger input images without changing the classifier weights`, R`GAP has 1024 learnable parameters`], a: [0, 1, 2],
+        x: R`$50{,}176\times1000+1000\approx50.18$ M vs $1024\times1000+1000=1{,}025{,}000$. GAP is parameter-free and produces a 1024-d vector whatever the spatial size.` },
+      { pts: 1, k: "trap", q: R`About GoogLeNet's auxiliary classifiers, which statements are true?`,
+        o: [R`They inject extra gradient into the middle of the network during training`, R`Their losses are added with weight 0.3`, R`At test time their predictions are averaged with the main classifier's`, R`They are discarded after training`], a: [0, 1, 3],
+        x: R`$L=L_{\text{final}}+0.3L_{\text{aux1}}+0.3L_{\text{aux2}}$ during training only.` },
+      { pts: 1, k: "scenario", q: R`You have only 500 labelled chest X-rays and an ImageNet-pretrained VGG-16. Which strategies are sensible?`,
+        o: [R`Freeze the backbone, extract FC7 (4096-d) features and train a linear classifier`, R`Train VGG-16 from random initialisation on the 500 images`, R`Fine-tune only the last few layers with a small learning rate`, R`Use the pretrained weights but replace the 1000-way FC8 with a new head for your classes`], a: [0, 2, 3],
+        x: R`138 M parameters from scratch on 500 images will overfit badly. Pretrained features transfer surprisingly well even to distant domains.` },
+      { pts: 1, k: "interpret", q: R`Why does Zeiler &amp; Fergus's deconvnet need the max-pooling "switches"?`,
+        o: [R`Max pooling discards <em>where</em> in each window the maximum was; the switches record it`, R`Without switches, unpooling cannot place activations back at the correct pixel positions`, R`Switches store the filter weights for the transposed convolution`, R`Switches make max pooling invertible for all values in the window`], a: [0, 1],
+        x: R`Only the max is put back; the other three positions are filled with zeros — the operation is still not truly invertible.` },
+      { pts: 1, single: true, k: "compute", q: R`How many parameters does a $1\times1$ convolution from 256 to 64 channels have, including biases?`,
+        o: [R`320`, R`16,384`, R`16,448`, R`65,536`], a: [2],
+        x: R`$64\times(1\cdot1\cdot256+1)=16{,}448$. A $1\times1$ conv is a fully connected layer over channels, applied at every pixel.` },
+    ],
+    short: [
+      { pts: 2, k: "compute", q: R`For $C=64$ channels, compare the weights of one $5\times5$ conv with two stacked $3\times3$ convs, and give the second (non-parameter) advantage of the stack.`,
+        a: R`<p>$5\times5$: $25\cdot64^2=102{,}400$. Two $3\times3$: $2\cdot9\cdot64^2=73{,}728$ — 28% fewer for the same $5\times5$ receptive field. The stack also has <strong>two ReLUs</strong>, so it is more nonlinear and more discriminative (and adds depth cheaply).</p>` },
+      { pts: 2, k: "interpret", q: R`Plot (in words) training-error curves of a plain 20-layer, a plain 56-layer and a residual 56-layer network, and explain the differences.`,
+        a: R`<p>Plain-20 reaches lower training error than plain-56 — the deeper plain net is harder to optimise (degradation), even though it could represent the shallower one. Residual-56 trains to lower error than both: with $H=F+x$ the layers only need to learn corrections, identity is the default, and gradients reach early layers through the shortcuts. Depth then helps instead of hurting.</p>` },
+      { pts: 2, k: "interpret", q: R`Why do VGG-16's parameters concentrate in FC6 while its activation memory concentrates in the first conv layers?`,
+        a: R`<p>FC6 connects $7\times7\times512=25{,}088$ inputs to 4,096 outputs ≈ 102.8 M weights (~74% of 138 M). Conv1_1 has only $64\times28=1{,}792$ parameters but outputs $224\times224\times64$ values ≈ 12.8 MB per image in float32. Parameters follow connectivity; memory follows spatial resolution × channels.</p>` },
+      { pts: 2, k: "interpret", q: R`Why do early conv layers use few filters (64) and later layers many (512)?`,
+        a: R`<p>Early layers see tiny receptive fields where only a limited vocabulary of primitives exists (edges, colours), and their maps are large, so many channels would be very expensive. Deeper layers cover large regions with many possible part/object combinations, so they need more detectors; downsampling makes this affordable — spatial size halves while channels double.</p>` },
+    ],
+    long: [
+      { pts: 8, k: "compute", q: R`<p>Two ways to process a $56\times56\times256$ feature map (same padding, stride 1, biases ignored), each wrapped in a residual connection:<br>
+<strong>A (basic)</strong>: $3\times3$ conv 256 → ReLU → $3\times3$ conv 256.<br>
+<strong>B (bottleneck)</strong>: $1\times1$ conv 64 → ReLU → $3\times3$ conv 64 → ReLU → $1\times1$ conv 256.</p>`,
+        parts: [
+          { pts: 2, q: R`Count the weights of A and B.`,
+            a: R`<p>A: $2\times9\times256^2=1{,}179{,}648$. B: $256\cdot64+9\cdot64^2+64\cdot256=16{,}384+36{,}864+16{,}384=69{,}632$ — about 17× fewer.</p>` },
+          { pts: 2, q: R`Count the multiply–adds of each for one image.`,
+            a: R`<p>Every weight is used at all $56^2=3136$ positions. A: $1{,}179{,}648\times3136\approx3.70$ G. B: $69{,}632\times3136\approx218$ M.</p>` },
+          { pts: 2, q: R`What receptive field does each branch have? Why does B still lose little accuracy?`,
+            a: R`<p>A: $5\times5$; B: $3\times3$ (the $1\times1$ convs add none). The $1\times1$ convs compress and re-expand channels (cross-channel mixing), so the expensive spatial conv runs in a cheap 64-d space; feature channels are highly correlated, so little information is lost, and the saved budget lets the network be much deeper (ResNet-50/101/152), which recovers the receptive field.</p>` },
+          { pts: 2, q: R`Write $\partial L/\partial x$ for $y=x+F(x)$ and explain why stacking 50 such blocks still trains, while 50 plain layers may not.`,
+            a: R`<p>$\dfrac{\partial L}{\partial x}=\dfrac{\partial L}{\partial y}\Big(I+\dfrac{\partial F}{\partial x}\Big)$. Through 50 blocks the product of $(I+J_k)$ expands into a sum containing the identity term, so the upstream gradient reaches early layers even if every $J_k$ is small. A plain stack multiplies $J_1\cdots J_{50}$, which vanishes (or explodes) exponentially when the factors are below (above) 1.</p>` },
+        ] },
+    ],
+  };
+})();

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 19 · Flow matching — DLVA Question Bank</title>
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+<script defer src="../assets/vendor/katex/katex.min.js"></script>
+<script defer src="../assets/vendor/katex/auto-render.min.js"></script>
+<script defer src="../assets/search-index.js"></script>
+<script defer src="../assets/lectures.js"></script>
+<script defer src="../assets/qb/L19.js"></script>
+<script defer src="../assets/qbank.js"></script>
+<script defer src="../assets/site.js"></script>
+</head>
+<body data-page="L19" data-root="..">
+<main class="content">
+
+<div class="hero">
+  <div class="kicker">Lecture 19 · 22 Oct 2026 · after the midterm</div>
+  <h1>Flow Matching &amp; Flow Models</h1>
+  <p class="lead">DDPM recap and its limitations, the score, velocity fields, the flow-matching loss, ODE sampling and solvers, Reflow, and applications.</p>
+  <div class="meta" id="qb-meta"></div>
+</div>
+
+<div class="box key">
+  <span class="box-title">What to revise from this lecture</span>
+  <div class="qb-points" id="qb-points"></div>
+</div>
+
+<p class="small muted">MCQs follow the paper's rule: <strong>at least one option is correct</strong> (unless marked single correct), with partial marks for an incomplete but correct selection and zero if any wrong option is chosen. For short and long questions, write your answer, reveal the model answer and mark yourself. Tags such as <em>scenario</em>, <em>trap</em>, <em>compute</em>, <em>design</em> and <em>interpret</em> show the skill each question tests.</p>
+
+<div id="qbank"></div>
+
+</main>
+<script>
+document.addEventListener("rl:ready", function () {
+  var b = window.QB_ALL && window.QB_ALL["L19"]; if (!b) return;
+  var m = 0; b.mcq.forEach(function (q) { m += q.pts; });
+  var w = 0; b.short.concat(b.long || []).forEach(function (q) { w += q.pts; });
+  document.getElementById("qb-meta").innerHTML =
+    '<span class="chip">' + b.mcq.length + ' MCQs · ' + m + ' marks</span>' +
+    '<span class="chip">' + b.short.length + ' short questions</span>' +
+    ((b.long || []).length ? '<span class="chip">' + b.long.length + ' long question' + (b.long.length > 1 ? 's' : '') + '</span>' : '') +
+    '<span class="chip">' + w + ' written marks</span>';
+});
+</script>
+</body>
+</html>

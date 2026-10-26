@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DLVA Question Bank — DS 265o Deep Learning for Visual Analytics</title>
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/style.css">
+<script defer src="assets/vendor/katex/katex.min.js"></script>
+<script defer src="assets/vendor/katex/auto-render.min.js"></script>
+<script defer src="assets/search-index.js"></script>
+<script defer src="assets/lectures.js"></script>
+<script defer src="assets/site.js"></script>
+</head>
+<body data-page="home" data-root=".">
+<main class="content">
+
+<div class="hero">
+  <div class="kicker">Exam practice · DS 265o, IISc · Aug–Dec 2026</div>
+  <h1>Deep Learning for Visual Analytics — Question Bank</h1>
+  <p class="lead">Lecture-by-lecture exam questions in the style of the DS 265o midterm: multi-correct MCQs with partial marking, two-mark "explain why" questions, and multi-part long problems. They are written from the class notes and pitched at the paper's level — scenarios to diagnose, traps that need precise understanding, quick computations and design-then-analyse problems — each with a full worked answer.</p>
+  <div class="meta">
+    <span class="chip" id="count-chip">19 lectures</span>
+    <span class="chip" id="progress-chip">MCQ sets completed: 0</span>
+    <span class="chip">Works offline · light &amp; dark</span>
+  </div>
+</div>
+
+<div class="box key">
+  <span class="box-title">How to use this site</span>
+  <ol>
+    <li><strong>Revise a lecture</strong>: open it, read the "what to revise" summary, then answer its questions. MCQs are marked instantly with the paper's partial-marking rule; for written questions, draft your answer, reveal the model answer and mark yourself.</li>
+    <li><strong>Check yourself against the real paper</strong>: the <a href="sample-midterm.html">solved sample midterm</a> has every question of the 22 Sep 2026 paper with reasoning.</li>
+    <li><strong>Simulate the exam</strong>: the <a href="mock-paper.html">mock paper generator</a> builds a fresh 30-mark, 90-minute paper from the lectures you choose, timed and marked at the end.</li>
+  </ol>
+</div>
+
+<h2 id="before-midterm">Lectures before the midterm</h2>
+<div class="grid-2" id="cards-pre"></div>
+
+<h2 id="after-midterm">Lectures after the midterm</h2>
+<div class="grid-2" id="cards-post"></div>
+
+<h2 id="practice">Practice papers</h2>
+<div class="grid-2">
+  <a class="card" href="sample-midterm.html"><h4>Sample midterm — solved</h4><p class="small muted">The 22 Sep 2026 paper (30 marks, 90 min): 11 MCQs, 4 short questions and the RNN long question, with full solutions.</p></a>
+  <a class="card" href="mock-paper.html"><h4>Mock paper generator</h4><p class="small muted">A random 14-mark MCQ section + 4 short questions + 1 long question from your chosen lectures, with a 90-minute timer.</p></a>
+  <a class="card" href="exam-format.html"><h4>Exam format &amp; strategy</h4><p class="small muted">How the paper is marked, how to answer multi-correct MCQs, what examiners look for in short answers, and recurring question patterns.</p></a>
+</div>
+
+</main>
+<script>
+document.addEventListener("rl:ready", function () {
+  var L = window.DLVA_LECTURES || [], best = RL.store.get("qbBest", {});
+  var nq = 0, done = 0;
+  L.forEach(function (l) {
+    var n = l.n || { mcq: 0, short: 0, long: 0 };
+    nq += n.mcq + n.short + n.long;
+    var b = best[l.id];
+    if (b) done++;
+    var html = '<a class="card" href="lectures/' + l.id + '.html"><h4>' + (+l.id.slice(1)) + " · " + l.title + "</h4>" +
+      '<p class="small muted">' + l.date + " — " + l.lead + "</p>" +
+      '<div class="meta" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"><span class="chip">' + n.mcq + " MCQ · " + n.short + " short" + (n.long ? " · " + n.long + " long" : "") + "</span>" +
+      (b ? '<span class="chip quiz-best-chip">Best MCQ ' + b.mcq + " / " + b.max + "</span>" : "") + "</div></a>";
+    document.getElementById(l.phase === "pre" ? "cards-pre" : "cards-post").insertAdjacentHTML("beforeend", html);
+  });
+  document.getElementById("count-chip").textContent = L.length + " lectures · " + nq + " questions";
+  document.getElementById("progress-chip").textContent = "MCQ sets completed: " + done + " / " + L.length;
+});
+</script>
+</body>
+</html>
