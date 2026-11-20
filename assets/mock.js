@@ -7,6 +7,7 @@
   const $ = (id) => document.getElementById(id);
   const MCQ_MARKS = 14, N_SHORT = 4;
   const round = (v) => Math.round(v * 100) / 100;
+  const numOf = (id) => ((LECT.find((l) => l.id === id) || {}).num) || id;
 
   function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
@@ -24,7 +25,7 @@
 
   // Scope controls
   const scopeSel = $("mock-scope"), custom = $("mock-custom");
-  custom.innerHTML = LECT.map((l) => '<label><input type="checkbox" value="' + l.id + '"' + (l.phase === "pre" ? " checked" : "") + "> L" + (+l.id.slice(1)) + " " + l.nav + "</label>").join("");
+  custom.innerHTML = LECT.map((l) => '<label><input type="checkbox" value="' + l.id + '"' + (l.phase === "pre" ? " checked" : "") + "> " + (l.phase === "final" ? "" : "L") + l.num + " " + l.nav + "</label>").join("");
   function chosen() {
     const v = scopeSel.value;
     if (v === "custom") return [...custom.querySelectorAll("input:checked")].map((i) => i.value);
@@ -73,7 +74,7 @@
     head.className = "card paper-head";
     head.innerHTML = '<h2 id="paper">DS265o: Deep Learning for Visual Analytics — Mock Paper</h2>' +
       '<p class="small">' + total + " marks · " + ($("mock-time").value === "0" ? "untimed" : $("mock-time").value + " minutes") +
-      " · Lectures " + ids.map((i) => +i.slice(1)).join(", ") + "</p>" +
+      " · Sources " + ids.map(numOf).join(", ") + "</p>" +
       '<p class="small muted">MCQs have at least one correct option unless stated; partial marks for an incomplete but correct selection, none if any wrong option is chosen.</p>';
     root.appendChild(head);
 
@@ -91,7 +92,7 @@
       s.innerHTML = "<h2>" + title + " (" + sum(items) + " marks)</h2>";
       items.forEach((it) => {
         const el = make(it.q, n++, "exam", onScore(it));
-        el.querySelector(".qb-head").insertAdjacentHTML("beforeend", '<a class="qb-tag" href="lectures/' + it.lid + '.html">Lecture ' + (+it.lid.slice(1)) + "</a>");
+        el.querySelector(".qb-head").insertAdjacentHTML("beforeend", '<a class="qb-tag" href="lectures/' + it.lid + '.html">' + (it.lid[0] === 'F' ? 'Topic ' : 'Lecture ') + numOf(it.lid) + "</a>");
         els.push(el); s.appendChild(el);
       });
       root.appendChild(s);
@@ -112,7 +113,7 @@
       const w = round([...wMarks.values()].reduce((a, b) => a + b, 0));
       const byL = {};
       mcq.forEach((it) => { const r = byL[it.lid] = byL[it.lid] || [0, 0]; r[0] += mcqMarks.get(it) || 0; r[1] += it.q.pts; });
-      const weak = Object.keys(byL).filter((k) => byL[k][0] < byL[k][1]).map((k) => '<a href="lectures/' + k + '.html">Lecture ' + (+k.slice(1)) + "</a> (" + round(byL[k][0]) + "/" + byL[k][1] + ")");
+      const weak = Object.keys(byL).filter((k) => byL[k][0] < byL[k][1]).map((k) => '<a href="lectures/' + k + '.html">' + (k[0] === 'F' ? 'Topic ' : 'Lecture ') + numOf(k) + "</a> (" + round(byL[k][0]) + "/" + byL[k][1] + ")");
       result.innerHTML = "<strong>Result.</strong> MCQ " + m + " / " + mcqMax + " (marked automatically) · Written " + w + " / " + wMax +
         " (mark each answer yourself against the model answer) · <strong>Total " + round(m + w) + " / " + total + "</strong>" +
         (weak.length ? '<p class="small">MCQ marks dropped in: ' + weak.join(", ") + ". Revisit those lectures.</p>" : '<p class="small">Full MCQ marks — well done.</p>');

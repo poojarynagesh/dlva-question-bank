@@ -41,6 +41,10 @@
 <h2 id="after-midterm">Lectures after the midterm</h2>
 <div class="grid-2" id="cards-post"></div>
 
+<h2 id="final-term">Final-term topics (from the lecture slides)</h2>
+<p class="small muted">Built from the slide decks for the final: fundamentals (Classes 1–7, 11), self-supervised learning, adversarial robustness, generative modelling (GANs, VAEs, diffusion, flow matching), 3D vision (NeRF, Gaussian splatting) and multimodal vision. Same question styles as the midterm.</p>
+<div class="grid-2" id="cards-final"></div>
+
 <h2 id="practice">Practice papers</h2>
 <div class="grid-2">
   <a class="card" href="sample-midterm.html"><h4>Sample midterm — solved</h4><p class="small muted">The 22 Sep 2026 paper (30 marks, 90 min): 11 MCQs, 4 short questions and the RNN long question, with full solutions.</p></a>
@@ -58,13 +62,13 @@ document.addEventListener("rl:ready", function () {
     nq += n.mcq + n.short + n.long;
     var b = best[l.id];
     if (b) done++;
-    var html = '<a class="card" href="lectures/' + l.id + '.html"><h4>' + (+l.id.slice(1)) + " · " + l.title + "</h4>" +
+    var html = '<a class="card" href="lectures/' + l.id + '.html"><h4>' + l.num + " · " + l.title + "</h4>" +
       '<p class="small muted">' + l.date + " — " + l.lead + "</p>" +
       '<div class="meta" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"><span class="chip">' + n.mcq + " MCQ · " + n.short + " short" + (n.long ? " · " + n.long + " long" : "") + "</span>" +
       (b ? '<span class="chip quiz-best-chip">Best MCQ ' + b.mcq + " / " + b.max + "</span>" : "") + "</div></a>";
-    document.getElementById(l.phase === "pre" ? "cards-pre" : "cards-post").insertAdjacentHTML("beforeend", html);
+    document.getElementById(l.phase === "pre" ? "cards-pre" : l.phase === "final" ? "cards-final" : "cards-post").insertAdjacentHTML("beforeend", html);
   });
-  document.getElementById("count-chip").textContent = L.length + " lectures · " + nq + " questions";
+  document.getElementById("count-chip").textContent = L.length + " banks · " + nq + " questions";
   document.getElementById("progress-chip").textContent = "MCQ sets completed: " + done + " / " + L.length;
 });
 </script>

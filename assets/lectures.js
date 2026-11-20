@@ -3,6 +3,7 @@ window.DLVA_MIDTERM = "22 Sep 2026";
 window.DLVA_LECTURES = [
  {
   "id": "L01",
+  "num": "1",
   "date": "4 Aug 2026",
   "dateShort": "Aug 04",
   "nav": "Semantic gap & history of vision",
@@ -17,6 +18,7 @@ window.DLVA_LECTURES = [
  },
  {
   "id": "L02",
+  "num": "2",
   "date": "6 Aug 2026",
   "dateShort": "Aug 06",
   "nav": "Visual cortex, Gabor & HMAX",
@@ -31,6 +33,7 @@ window.DLVA_LECTURES = [
  },
  {
   "id": "L03",
+  "num": "3",
   "date": "11 Aug 2026",
   "dateShort": "Aug 11",
   "nav": "Image classification, kNN & linear classifiers",
@@ -45,6 +48,7 @@ window.DLVA_LECTURES = [
  },
  {
   "id": "L04",
+  "num": "4",
   "date": "13 Aug 2026",
   "dateShort": "Aug 13",
   "nav": "Loss functions & regularization",
@@ -59,6 +63,7 @@ window.DLVA_LECTURES = [
  },
  {
   "id": "L05",
+  "num": "5",
   "date": "18 Aug 2026",
   "dateShort": "Aug 18",
   "nav": "Optimization: GD, SGD, mini-batch",
@@ -73,6 +78,7 @@ window.DLVA_LECTURES = [
  },
  {
   "id": "L06",
+  "num": "6",
   "date": "20 Aug 2026",
   "dateShort": "Aug 20",
   "nav": "Deep learning & CNN weight sharing",
@@ -87,6 +93,7 @@ window.DLVA_LECTURES = [
  },
  {
   "id": "L07",
+  "num": "7",
   "date": "25 Aug 2026",
   "dateShort": "Aug 25",
   "nav": "PyTorch, autograd & conv arithmetic",
@@ -101,6 +108,7 @@ window.DLVA_LECTURES = [
  },
  {
   "id": "L08",
+  "num": "8",
   "date": "27 Aug 2026",
   "dateShort": "Aug 27",
   "nav": "Pooling, LeNet-5 & AlexNet",
@@ -115,6 +123,7 @@ window.DLVA_LECTURES = [
  },
  {
   "id": "L09",
+  "num": "9",
   "date": "1 Sep 2026",
   "dateShort": "Sep 01",
   "nav": "VGG, GoogLeNet & ResNet",
@@ -129,6 +138,7 @@ window.DLVA_LECTURES = [
  },
  {
   "id": "L10",
+  "num": "10",
   "date": "3 Sep 2026",
   "dateShort": "Sep 03",
   "nav": "Saliency maps & RNN taxonomy",
@@ -143,6 +153,7 @@ window.DLVA_LECTURES = [
  },
  {
   "id": "L11",
+  "num": "11",
   "date": "8 Sep 2026",
   "dateShort": "Sep 08",
   "nav": "Self-supervised learning",
@@ -157,6 +168,7 @@ window.DLVA_LECTURES = [
  },
  {
   "id": "L12",
+  "num": "12",
   "date": "10 Sep 2026",
   "dateShort": "Sep 10",
   "nav": "NeRF & 3D Gaussian Splatting",
@@ -171,6 +183,7 @@ window.DLVA_LECTURES = [
  },
  {
   "id": "L13",
+  "num": "13",
   "date": "15 Sep 2026",
   "dateShort": "Sep 15",
   "nav": "RNN, LSTM, GRU & attention",
@@ -185,6 +198,7 @@ window.DLVA_LECTURES = [
  },
  {
   "id": "L14",
+  "num": "14",
   "date": "24 Sep 2026",
   "dateShort": "Sep 24",
   "nav": "Adversarial attacks & defenses",
@@ -199,6 +213,7 @@ window.DLVA_LECTURES = [
  },
  {
   "id": "L15",
+  "num": "15",
   "date": "29 Sep 2026",
   "dateShort": "Sep 29",
   "nav": "Transformers & ViT",
@@ -213,6 +228,7 @@ window.DLVA_LECTURES = [
  },
  {
   "id": "L16",
+  "num": "16",
   "date": "1 Oct 2026",
   "dateShort": "Oct 01",
   "nav": "GANs & VAEs",
@@ -227,6 +243,7 @@ window.DLVA_LECTURES = [
  },
  {
   "id": "L17",
+  "num": "17",
   "date": "13 Oct 2026",
   "dateShort": "Oct 13",
   "nav": "Vision-language models (LLaVA)",
@@ -241,6 +258,7 @@ window.DLVA_LECTURES = [
  },
  {
   "id": "L18",
+  "num": "18",
   "date": "15 Oct 2026",
   "dateShort": "Oct 15",
   "nav": "3D reconstruction & foundation models",
@@ -255,6 +273,7 @@ window.DLVA_LECTURES = [
  },
  {
   "id": "L19",
+  "num": "19",
   "date": "22 Oct 2026",
   "dateShort": "Oct 22",
   "nav": "Flow matching",
@@ -265,6 +284,141 @@ window.DLVA_LECTURES = [
    "mcq": 9,
    "short": 3,
    "long": 1
+  }
+ },
+ {
+  "id": "F01",
+  "num": "F01",
+  "date": "Slides 2–4",
+  "dateShort": "Slides 2–4",
+  "nav": "Fundamentals I: classifiers, loss, optimisation, backprop",
+  "title": "Fundamentals I: Classification, Loss, Optimisation & Backpropagation",
+  "lead": "Linear classifiers and kNN, hinge versus cross-entropy, regularization, SGD variants and learning rates, computational graphs and backprop (slides Classes 2–4).",
+  "phase": "final",
+  "n": {
+   "mcq": 12,
+   "short": 5,
+   "long": 2
+  }
+ },
+ {
+  "id": "F02",
+  "num": "F02",
+  "date": "Slides 5–7",
+  "dateShort": "Slides 5–7",
+  "nav": "Fundamentals II: CNNs, explanation, RNN/LSTM",
+  "title": "Fundamentals II: CNNs, Explanation & Recurrent Networks",
+  "lead": "Convolution arithmetic, pooling and architectures, how to explain a CNN, RNN/LSTM dynamics and gradients (slides Classes 5–7).",
+  "phase": "final",
+  "n": {
+   "mcq": 12,
+   "short": 5,
+   "long": 2
+  }
+ },
+ {
+  "id": "F03",
+  "num": "F03",
+  "date": "Slide 11",
+  "dateShort": "Slide 11",
+  "nav": "Transformers & ViT",
+  "title": "Transformers, Attention & Vision Transformers",
+  "lead": "Self-attention maths, multi-head attention, positional encoding, masks, encoder/decoder, BERT/GPT and ViT (slides Class 11).",
+  "phase": "final",
+  "n": {
+   "mcq": 11,
+   "short": 4,
+   "long": 2
+  }
+ },
+ {
+  "id": "F04",
+  "num": "F04",
+  "date": "Slide 8",
+  "dateShort": "Slide 8",
+  "nav": "Self-supervised learning",
+  "title": "Self-Supervised Learning",
+  "lead": "Pretext tasks, context encoders, jigsaw, rotation, colorization, instance discrimination, MoCo and SimCLR (slides Class 8).",
+  "phase": "final",
+  "n": {
+   "mcq": 11,
+   "short": 4,
+   "long": 1
+  }
+ },
+ {
+  "id": "F05",
+  "num": "F05",
+  "date": "Slide 10",
+  "dateShort": "Slide 10",
+  "nav": "Adversarial robustness",
+  "title": "Adversarial Attacks & Defenses",
+  "lead": "Attacks, universal perturbations, defences and robust training (slides Class 10).",
+  "phase": "final",
+  "n": {
+   "mcq": 11,
+   "short": 4,
+   "long": 1
+  }
+ },
+ {
+  "id": "F06",
+  "num": "F06",
+  "date": "Slide 12",
+  "dateShort": "Slide 12",
+  "nav": "GANs & VAEs",
+  "title": "Generative Modelling: GANs & VAEs",
+  "lead": "The GAN game and its failure modes, autoencoders, the VAE objective and the reparameterization trick (slides Class 12).",
+  "phase": "final",
+  "n": {
+   "mcq": 11,
+   "short": 5,
+   "long": 2
+  }
+ },
+ {
+  "id": "F07",
+  "num": "F07",
+  "date": "Slides 13, 16",
+  "dateShort": "Slides 13, 16",
+  "nav": "Diffusion & flow matching",
+  "title": "Diffusion Models & Flow Matching",
+  "lead": "DDPM, score, guidance, latent diffusion, conditioning, ControlNet, DiT, velocity fields, flow-matching loss and ODE sampling (slides Classes 13 and 16).",
+  "phase": "final",
+  "n": {
+   "mcq": 12,
+   "short": 5,
+   "long": 2
+  }
+ },
+ {
+  "id": "F08",
+  "num": "F08",
+  "date": "Slides 9, 17",
+  "dateShort": "Slides 9, 17",
+  "nav": "NeRF & Gaussian splatting",
+  "title": "3D Vision: NeRF & 3D Gaussian Splatting",
+  "lead": "Differentiable rendering, NeRF, Gaussian parametrization, density control, tile rasterization and feed-forward 3DGS (slides Classes 9 and 17).",
+  "phase": "final",
+  "n": {
+   "mcq": 12,
+   "short": 5,
+   "long": 2
+  }
+ },
+ {
+  "id": "F09",
+  "num": "F09",
+  "date": "Slides 14, 15",
+  "dateShort": "Slides 14, 15",
+  "nav": "Multimodal vision (VLMs)",
+  "title": "Multimodal Vision: Vision-Language Models",
+  "lead": "Contrastive and generative vision-language models, connectors, instruction tuning and interpretability (slides Classes 14 and 15).",
+  "phase": "final",
+  "n": {
+   "mcq": 12,
+   "short": 5,
+   "long": 2
   }
  }
 ];

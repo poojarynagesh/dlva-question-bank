@@ -61,7 +61,7 @@ def main():
             continue
         available.append(lid)
         rel = f"lectures/{lid}.html"
-        where = f"Lecture {int(lid[1:])}"
+        where = f"Topic {lid}" if lid.startswith("F") else f"Lecture {int(lid[1:])}"
         entries.append({"t": title, "p": f"{where} · {date}", "u": rel})
         src = bank.read_text(encoding="utf-8")
         pts = re.search(r"points:\s*\[(.*?)\n\s*\],", src, re.S)

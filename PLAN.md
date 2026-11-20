@@ -43,6 +43,10 @@ Sources:
 | L18 | 15 Oct | 3D reconstruction, foundation models | ✓ |
 | L19 | 22 Oct | Flow matching | ✓ |
 
+### Final-term topics (built from `lecture_Slides/`, not the notes)
+
+Banks `F01–F09` (phase `final`; ids shown as "F1…" in nav/mock): F01 classification/loss/optimisation/backprop (Classes 2–4), F02 CNNs/explanation/RNN-LSTM (5–7), F03 Transformers (11), F04 SSL (8), F05 adversarial (10), F06 GANs/VAEs (12), F07 diffusion & flow matching (13, 16), F08 NeRF/3DGS (9, 17), F09 VLMs (14, 15). Added 2026-11-20. The slide PDFs are git-ignored (312 MB). Classes 4/5 slides have no extractable text, so F01/F02 lean on standard course material. Mock paper scope "Final-term topics" draws only from these.
+
 Add a row here whenever a new lecture is added.
 
 ## Workflow: new lecture notes arrive
