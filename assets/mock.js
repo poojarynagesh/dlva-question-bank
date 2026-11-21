@@ -19,7 +19,12 @@
     if (window.QB_ALL && window.QB_ALL[l.id]) return res();
     const s = document.createElement("script");
     s.src = "assets/qb/" + l.id + ".js";
-    s.onload = s.onerror = () => res();
+    s.onload = s.onerror = () => {
+      const p = document.createElement("script");
+      p.src = "assets/patterns/" + l.id + ".js";
+      p.onload = p.onerror = () => { window.QBR && window.QBR.attachPatterns(l.id); res(); };
+      document.head.appendChild(p);
+    };
     document.head.appendChild(s);
   })));
 

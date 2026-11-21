@@ -55,6 +55,14 @@ LECTURES = [
      "NeRF versus 3DGS, SfM initialisation, dynamic scenes, feed-forward and pose-free reconstruction, 3D foundation models, generative 3D, and the bitter lesson.", "post"),
     ("L19", "22 Oct 2026", "Flow matching", "Flow Matching & Flow Models",
      "DDPM recap and its limitations, the score, velocity fields, the flow-matching loss, ODE sampling and solvers, Reflow, and applications.", "post"),
+    ("L20", "27 Oct 2026", "Project session", "Project Session: Expectations, Exam Logistics & a Flow-Matching Case Study",
+     "No regular lecture: project expectations, dates and exam logistics, plus a worked past project (precise image generation with flow matching) showing the compression arithmetic and how a compounding first-step error was diagnosed.", "post"),
+    ("L21", "29 Oct 2026", "Fairness & bias", "Fairness and Bias in Deep Learning",
+     "Why classifiers and diffusion models inherit dataset bias (Waterbirds, CelebA, Stable Diffusion), how to measure it with worst-group accuracy, parity and equalized odds, and how supervised and unsupervised methods mitigate it.", "post"),
+    ("L22", "3 Nov 2026", "Video diffusion & physics", "Video Diffusion Models: VAE, Attention, Physics Benchmarks & Robotics",
+     "Causal 3D-conv video VAEs, spatial/temporal/full attention in video DiTs, why generated video still breaks physics (VideoPhy, Physics-IQ, Principia), ways to fix it, and video-action models for robots.", "post"),
+    ("L23", "5 Nov 2026", "Visual reasoning in VLMs", "Visual Reasoning in VLMs: Thinking About, With and in Latent Space",
+     "System 1 vs System 2, chain-of-thought, SFT and RL pipelines, the three families (thinking about images, thinking with images, latent visual reasoning), Coconut, open problems and Gaze Heads.", "post"),
     # ---- Final-term topics, built from the lecture SLIDES (lecture_Slides/) ----
     ("F01", "Slides 2–4", "Fundamentals I: classifiers, loss, optimisation, backprop", "Fundamentals I: Classification, Loss, Optimisation & Backpropagation",
      "Linear classifiers and kNN, hinge versus cross-entropy, regularization, SGD variants and learning rates, computational graphs and backprop (slides Classes 2–4).", "final"),
@@ -88,8 +96,8 @@ TEMPLATE = """<!doctype html>
 <script defer src="../assets/vendor/katex/auto-render.min.js"></script>
 <script defer src="../assets/search-index.js"></script>
 <script defer src="../assets/lectures.js"></script>
-<script defer src="../assets/qb/{id}.js"></script>
-<script defer src="../assets/qbank.js"></script>
+{concept_script}<script defer src="../assets/qb/{id}.js"></script>
+{pattern_script}<script defer src="../assets/qbank.js"></script>
 <script defer src="../assets/site.js"></script>
 </head>
 <body data-page="{id}" data-root="..">
@@ -106,6 +114,12 @@ TEMPLATE = """<!doctype html>
   <span class="box-title">What to revise from this lecture</span>
   <div class="qb-points" id="qb-points"></div>
 </div>
+
+<section id="qb-concepts-wrap" hidden>
+  <h2>Key concepts from the lecture</h2>
+  <p class="small muted">Read these before attempting the questions.</p>
+  <div id="qb-concepts" class="qb-concepts"></div>
+</section>
 
 <p class="small muted">MCQs follow the paper's rule: <strong>at least one option is correct</strong> (unless marked single correct), with partial marks for an incomplete but correct selection and zero if any wrong option is chosen. For short and long questions, write your answer, reveal the model answer and mark yourself. Tags such as <em>scenario</em>, <em>trap</em>, <em>compute</em>, <em>design</em> and <em>interpret</em> show the skill each question tests.</p>
 
@@ -127,6 +141,13 @@ document.addEventListener("rl:ready", function () {{
 </body>
 </html>
 """
+
+
+def extra_script(lid, folder):
+    """A <script> tag for assets/<folder>/<lid>.js when that optional file exists."""
+    if (ROOT / "assets" / folder / f"{lid}.js").exists():
+        return f'<script defer src="../assets/{folder}/{lid}.js"></script>' + chr(10)
+    return ""
 
 
 def short_date(d):
@@ -158,7 +179,9 @@ def main():
         fin = phase == "final"
         kick = f"Final-term topic {lid} · lecture slides {date}" if fin else f"Lecture {int(lid[1:])} · {date}" + (" · after the midterm" if phase == "post" else "")
         page = TEMPLATE.format(id=lid, kicker=kick, tname=f"Topic {lid}" if fin else f"Lecture {int(lid[1:])}", date=date, title=html.escape(title), lead=html.escape(lead),
-                               short=html.escape(nav))
+                               short=html.escape(nav),
+                               pattern_script=extra_script(lid, "patterns"),
+                               concept_script=extra_script(lid, "concepts"))
         (out / f"{lid}.html").write_text(page, encoding="utf-8")
     data = [{"id": lid, "num": lid if lid.startswith("F") else str(int(lid[1:])), "date": date, "dateShort": date if date.startswith("Slide") else short_date(date), "nav": nav, "title": title, "lead": lead, "phase": phase, "n": counts(lid)}
             for lid, date, nav, title, lead, phase in LECTURES]

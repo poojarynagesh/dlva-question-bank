@@ -287,6 +287,66 @@ window.DLVA_LECTURES = [
   }
  },
  {
+  "id": "L20",
+  "num": "20",
+  "date": "27 Oct 2026",
+  "dateShort": "Oct 27",
+  "nav": "Project session",
+  "title": "Project Session: Expectations, Exam Logistics & a Flow-Matching Case Study",
+  "lead": "No regular lecture: project expectations, dates and exam logistics, plus a worked past project (precise image generation with flow matching) showing the compression arithmetic and how a compounding first-step error was diagnosed.",
+  "phase": "post",
+  "n": {
+   "mcq": 9,
+   "short": 5,
+   "long": 1
+  }
+ },
+ {
+  "id": "L21",
+  "num": "21",
+  "date": "29 Oct 2026",
+  "dateShort": "Oct 29",
+  "nav": "Fairness & bias",
+  "title": "Fairness and Bias in Deep Learning",
+  "lead": "Why classifiers and diffusion models inherit dataset bias (Waterbirds, CelebA, Stable Diffusion), how to measure it with worst-group accuracy, parity and equalized odds, and how supervised and unsupervised methods mitigate it.",
+  "phase": "post",
+  "n": {
+   "mcq": 10,
+   "short": 5,
+   "long": 1
+  }
+ },
+ {
+  "id": "L22",
+  "num": "22",
+  "date": "3 Nov 2026",
+  "dateShort": "Nov 03",
+  "nav": "Video diffusion & physics",
+  "title": "Video Diffusion Models: VAE, Attention, Physics Benchmarks & Robotics",
+  "lead": "Causal 3D-conv video VAEs, spatial/temporal/full attention in video DiTs, why generated video still breaks physics (VideoPhy, Physics-IQ, Principia), ways to fix it, and video-action models for robots.",
+  "phase": "post",
+  "n": {
+   "mcq": 10,
+   "short": 5,
+   "long": 1
+  }
+ },
+ {
+  "id": "L23",
+  "num": "23",
+  "date": "5 Nov 2026",
+  "dateShort": "Nov 05",
+  "nav": "Visual reasoning in VLMs",
+  "title": "Visual Reasoning in VLMs: Thinking About, With and in Latent Space",
+  "lead": "System 1 vs System 2, chain-of-thought, SFT and RL pipelines, the three families (thinking about images, thinking with images, latent visual reasoning), Coconut, open problems and Gaze Heads.",
+  "phase": "post",
+  "n": {
+   "mcq": 11,
+   "short": 5,
+   "long": 1
+  }
+ },
+ {
   "id": "F01",
   "num": "F01",
   "date": "Slides 2–4",

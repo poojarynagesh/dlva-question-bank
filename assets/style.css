@@ -721,3 +721,9 @@ body[data-page="sample"], body[data-page="mock"] { --chap: var(--s7); }
 .mock-result { font-family: var(--serif); font-size: var(--read-size); padding: 14px 16px; border-radius: 14px; border: 1px solid color-mix(in srgb, var(--chap) 30%, var(--border)); background: color-mix(in srgb, var(--chap) 8%, var(--surface)); }
 @media (max-width: 700px) { .qb-bar { top: 60px; } }
 @media print { .qb-bar, .qb-actions, .qb-self, .qb-draft { display: none !important; } .qb-model[hidden] { display: block !important; } }
+
+/* ---------- Concept & pattern panel (shown with revealed answers) ---------- */
+.qb-pattern { margin-top: 12px; padding: 12px 16px; border-left: 4px solid var(--key); background: var(--key-bg); border-radius: 0 var(--radius) var(--radius) 0; }
+.qb-pattern .qb-pattern-h { display: block; font-size: 13px; font-weight: 700; color: var(--key); margin-bottom: 4px; }
+.qb-pattern > :last-child { margin-bottom: 0; }
+.qb-concepts .box { margin: 12px 0; }

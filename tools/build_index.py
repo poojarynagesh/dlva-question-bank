@@ -67,6 +67,10 @@ def main():
         pts = re.search(r"points:\s*\[(.*?)\n\s*\],", src, re.S)
         for p in RAW.findall(pts.group(1) if pts else ""):
             entries.append({"t": clip(text(p)), "p": f"{where} · Revise", "u": rel + "#qb-points", "k": "Revise"})
+        cf = ROOT / "assets" / "concepts" / f"{lid}.js"
+        if cf.exists():
+            for h in re.findall(r"h:\s*R`(.*?)`", cf.read_text(encoding="utf-8"), re.S):
+                entries.append({"t": clip(text(h)), "p": f"{where} · Concept", "u": rel + "#qb-concepts-wrap", "k": "Concept"})
         for sec, kind in (("mcq", "MCQ"), ("short", "Short"), ("long", "Long")):
             block = re.search(r"\n    " + sec + r":\s*\[(.*?)\n    \],", src, re.S)
             if not block:

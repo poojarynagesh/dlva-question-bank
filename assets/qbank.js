@@ -30,6 +30,15 @@
   }
 
   /* ---------- builders ---------- */
+  // "Concept & pattern" panel shown with every revealed answer (window.QB_PATTERNS[id], index-aligned with the bank).
+  const patternHtml = (c) => (c ? '<div class="qb-pattern"><span class="qb-pattern-h">Concept &amp; pattern — reuse this on new problems</span>' + c + "</div>" : "");
+  function attachPatterns(id) {
+    const P = window.QB_PATTERNS && window.QB_PATTERNS[id], B = window.QB_ALL && window.QB_ALL[id];
+    if (!P || !B || B._pat) return;
+    B._pat = true;
+    ["mcq", "short"].forEach((k) => (B[k] || []).forEach((q, i) => { if (P[k] && P[k][i]) q.c = P[k][i]; }));
+    (B.long || []).forEach((q, i) => q.parts.forEach((p, j) => { if (P.long && P.long[i] && P.long[i][j]) p.c = P.long[i][j]; }));
+  }
   const kindTag = (q) => (q.k ? '<span class="qb-tag qb-kind">' + q.k + "</span>" : "");
 
   function mcqEl(q, n, mode, onScore) {
@@ -61,7 +70,7 @@
       fb.innerHTML = '<div class="qb-verdict ' + (full ? "ok" : part ? "part" : "bad") + '">' +
         (full ? "Correct" : part ? "Partially correct" : sel.length ? "Incorrect" : "Not answered") +
         " · " + marks + " / " + q.pts + "</div>" +
-        '<div class="qb-ans"><strong>Answer: ' + q.a.map((i) => "(" + L[i] + ")").join(", ") + ".</strong> " + (q.x || "") + "</div>";
+        '<div class="qb-ans"><strong>Answer: ' + q.a.map((i) => "(" + L[i] + ")").join(", ") + ".</strong> " + (q.x || "") + "</div>" + patternHtml(q.c);
       mathify(fb);
       el.classList.add("done", full ? "is-ok" : part ? "is-part" : "is-bad");
       const btn = el.querySelector(".qb-check"); if (btn) btn.remove();
@@ -77,12 +86,12 @@
   }
 
   // Written answer with model solution and self-marking.
-  function writtenBlock(pts, answer, mode, onScore) {
+  function writtenBlock(pts, answer, mode, onScore, pattern) {
     const box = document.createElement("div");
     box.className = "qb-written";
     box.innerHTML = '<textarea class="qb-draft" rows="3" placeholder="Write your answer here (stays on this page only), then reveal the model answer."></textarea>' +
       (mode === "practice" ? '<div class="qb-actions"><button class="btn ghost qb-show" type="button">Show model answer</button></div>' : "") +
-      '<div class="qb-model" hidden><div class="qb-model-h">Model answer</div><div class="qb-model-b">' + answer + "</div>" +
+      '<div class="qb-model" hidden><div class="qb-model-h">Model answer</div><div class="qb-model-b">' + answer + "</div>" + patternHtml(pattern) +
       '<div class="qb-self"><span>Mark yourself:</span>' +
       [0, pts / 2, pts].map((v) => '<button type="button" class="qb-mark" data-v="' + v + '">' + v + " / " + pts + "</button>").join("") + "</div></div>";
     const show = () => {
@@ -105,7 +114,7 @@
     el.className = "qb-q qb-short";
     el.innerHTML = '<div class="qb-head"><span class="qb-n">' + n + '</span><span class="qb-pts">' + q.pts + " marks</span><span class=\"qb-tag\">short answer</span>" + kindTag(q) + "</div>" +
       '<div class="qb-text">' + q.q + "</div>";
-    const w = writtenBlock(q.pts, q.a, mode, onScore);
+    const w = writtenBlock(q.pts, q.a, mode, onScore, q.c);
     el.appendChild(w);
     el._reveal = w._reveal;
     return el;
@@ -121,7 +130,7 @@
       const part = document.createElement("div");
       part.className = "qb-part";
       part.innerHTML = '<div class="qb-part-q"><span class="qb-part-l">' + (q.labels ? q.labels[i] : "(" + (q.roman ? ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii"][i] : L[i]) + ")") + '</span> <span class="qb-pts small">' + p.pts + (p.pts === 1 ? " mark" : " marks") + "</span> " + p.q + "</div>";
-      const w = writtenBlock(p.pts, p.a, mode, onScore);
+      const w = writtenBlock(p.pts, p.a, mode, onScore, p.c);
       part.appendChild(w);
       reveals.push(w._reveal);
       el.appendChild(part);
@@ -193,7 +202,18 @@
     mathify(el);
   }
 
-  window.QBR = { mcqEl, shortEl, longEl, scoreMcq, renderLecture, renderPoints, mathify };
+  // Key concepts: window.QB_CONCEPTS[id] = [{ h: "title", t: "def|exam|pitfall" (optional), b: "html" }, ...]
+  function renderConcepts(id) {
+    const wrap = document.getElementById("qb-concepts-wrap");
+    const el = document.getElementById("qb-concepts");
+    const list = window.QB_CONCEPTS && window.QB_CONCEPTS[id];
+    if (!wrap || !el || !list || !list.length) return;
+    el.innerHTML = list.map((c) => '<div class="box ' + (c.t || "") + '"><span class="box-title">' + c.h + "</span>" + c.b + "</div>").join("");
+    wrap.hidden = false;
+    mathify(el);
+  }
+
+  window.QBR = { attachPatterns, mcqEl, shortEl, longEl, scoreMcq, renderLecture, renderPoints, mathify };
 
   // Render before site.js builds the sidebar table of contents (it reads the h2s);
   // site.js then typesets all maths on the page.
@@ -203,6 +223,8 @@
     const bank = window.QB_ALL && window.QB_ALL[id];
     if (!root || !bank) return;
     renderPoints(document.getElementById("qb-points"), bank);
+    renderConcepts(id);
+    attachPatterns(id);
     renderLecture(root, bank);
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
