@@ -13,7 +13,7 @@ Sources:
 | Phase | What | Status |
 |---|---|---|
 | 1 | Site shell (theme, nav, search, KaTeX offline), question engine `assets/qbank.js` | done |
-| 2 | Question banks for Lectures 1–19 (Aug 4 – Oct 22) | done |
+| 2 | Question banks for Lectures 1–23 (Aug 4 – Nov 5) | done |
 | 3 | Solved sample midterm, mock paper generator, exam-format page | done |
 | 4 | Publish on GitHub Pages | done (2026-10-26) |
 | 5 | **Ongoing:** add a bank for every new lecture as its notes arrive | open |
@@ -42,6 +42,10 @@ Sources:
 | L17 | 13 Oct | VLMs, LLaVA | ✓ |
 | L18 | 15 Oct | 3D reconstruction, foundation models | ✓ |
 | L19 | 22 Oct | Flow matching | ✓ |
+| L20 | 27 Oct | Project session, flow-matching case study | ✓ |
+| L21 | 29 Oct | Fairness & bias | ✓ |
+| L22 | 3 Nov | Video diffusion & physics | ✓ |
+| L23 | 5 Nov | Visual reasoning in VLMs | ✓ |
 
 ### Final-term topics (built from `lecture_Slides/`, not the notes)
 
@@ -59,6 +63,13 @@ When a new `Notes_… .md` file is pasted into `DLVA_Notes` (or into the chat):
 4. **Generate and index**: `python tools/make_pages.py` then `python tools/build_index.py`.
 5. **Check**: open `lectures/Lnn.html`; every question renders, no red KaTeX errors, MCQ marking works, model answers reveal. The mock-paper generator picks the new bank up automatically.
 6. **Log it** in the table above, commit, and `git push` — GitHub Pages republishes within a minute or two.
+
+## Key concepts and "Concept & pattern" (every bank)
+
+- `assets/concepts/Lnn.js` — `window.QB_CONCEPTS["Lnn"] = [{ h, t?: "def|exam|pitfall", b }]`: 6–10 cards shown before the questions ("Key concepts from the lecture").
+- `assets/patterns/<id>.js` — `window.QB_PATTERNS[id] = { mcq: [html…], short: [html…], long: [[html…]…] }`, **index-aligned** with the bank (same order and count). Shown under the explanation / model answer: Concept, Pattern (reusable recipe), Watch for. If you add or reorder questions, update this file too.
+- `ELECTRON_RUN_AS_NODE=1 "<path>/Code.exe" tools/check_banks.js` — node isn't installed; this loads every bank/concepts/patterns file and checks answer indices and pattern alignment. Run it before pushing.
+- New-lecture workflow gains steps: write the concepts file and the patterns file alongside the bank.
 
 ## Question quality bar (from the real paper)
 

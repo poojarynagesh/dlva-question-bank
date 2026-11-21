@@ -1,0 +1,31 @@
+(function () {
+  const R = String.raw;
+  (window.QB_PATTERNS = window.QB_PATTERNS || {})["L20"] = {
+    mcq: [
+      R`<p><strong>Concept:</strong> compression ratio = input values / latent values; the opposite direction is an expansion.</p><p><strong>Pattern:</strong> $H\cdot W\cdot C$ over latent size; vary one quantity and rescale; for 16 -> 2048 compute $2048/16$ and call it expansion.</p><p><strong>Watch for:</strong> a statement that calls an expansion a compression.</p>`,
+      R`<p><strong>Concept:</strong> an average training loss is not an end-to-end sample-quality metric.</p><p><strong>Pattern:</strong> ask what the loss averages over (time steps, samples) versus what sampling needs (a good trajectory). Localise with a cheat test: substitute ground truth at one step and see if quality recovers.</p><p><strong>Watch for:</strong> the claim that low loss guarantees good samples.</p>`,
+      R`<p><strong>Concept:</strong> error propagation in sequential numerical integration.</p><p><strong>Pattern:</strong> position error after a step = $\Delta t\times$ velocity error; later steps start from the wrong point and do not correct it.</p><p><strong>Watch for:</strong> fewer, larger steps amplify a given velocity error (error scales with $\Delta t$).</p>`,
+      R`<p><strong>Concept:</strong> evidence supports hypotheses partially; scientific method for debugging.</p><p><strong>Pattern:</strong> for "which conclusion is justified" keep claims proportional to evidence: partial improvement means partial explanation.</p><p><strong>Watch for:</strong> words like proven, only, nothing else.</p>`,
+      R`<p><strong>Concept:</strong> course logistics are tested as read-the-fine-print facts.</p><p><strong>Pattern:</strong> split each statement into who, when, graded or not, and what is required; check each independently.</p><p><strong>Watch for:</strong> swapped order of events (final presentation after the exams, not before).</p>`,
+      R`<p><strong>Concept:</strong> project bar = run released code plus some analysis.</p><p><strong>Pattern:</strong> accept anything hands-on and analytic (failure modes, lightweight modification, comparison); reject anything copied without running.</p><p><strong>Watch for:</strong> options that only quote paper results.</p>`,
+      R`<p><strong>Concept:</strong> flow matching needs both endpoints in the same space.</p><p><strong>Pattern:</strong> if the dimensions differ, you must pad or learn an encoder; padding adds no information, only a subspace.</p><p><strong>Watch for:</strong> padding claimed to add informative features.</p>`,
+      R`<p><strong>Concept:</strong> component ablation to separate decoder ceiling from generator quality.</p><p><strong>Pattern:</strong> test each module alone (autoencoder round-trip), swap in a better one, and measure the generator's per-step error.</p><p><strong>Watch for:</strong> any change that alters several components at once isolates nothing.</p>`,
+      R`<p><strong>Concept:</strong> input-size arithmetic for datasets.</p><p><strong>Pattern:</strong> values = $H\cdot W\cdot C$; ratios between datasets are ratios of these products.</p><p><strong>Watch for:</strong> logistics claims that contradict the stated limits (CPU-only and large datasets).</p>`,
+    ],
+    short: [
+      R`<p><strong>Concept:</strong> training loss versus sampling quality.</p><p><strong>Pattern:</strong> explain what the loss measures, what sampling chains, why an error compounds, then name two diagnostics (per-step MSE, cheat test).</p><p><strong>Watch for:</strong> do not just say overfitting; the issue is the mismatch of objectives.</p>`,
+      R`<p><strong>Concept:</strong> Euler propagation of one wrong step.</p><p><strong>Pattern:</strong> new position = old + $\Delta t\cdot v$ for the wrong step, then add the correct steps; error = final minus true endpoint.</p><p><strong>Watch for:</strong> forgetting that step 1 uses $\Delta t=0.1$, not 1.</p>`,
+      R`<p><strong>Concept:</strong> latent compression arithmetic with channels.</p><p><strong>Pattern:</strong> ratio = (H x W x 3) / (h x w x c); compare with a reference and relate it to expected reconstruction fidelity.</p><p><strong>Watch for:</strong> counting channels of the latent (4), not 3.</p>`,
+      R`<p><strong>Concept:</strong> planning a project talk under stated grading rules.</p><p><strong>Pattern:</strong> structure: method, limitations, your idea, expected obstacles; state clearly what is graded and when.</p><p><strong>Watch for:</strong> promising results you cannot yet deliver; the midterm is ungraded.</p>`,
+      R`<p><strong>Concept:</strong> describing a modular generative pipeline.</p><p><strong>Pattern:</strong> list modules in order with their input and output shapes, then the ablation axes (one per module).</p><p><strong>Watch for:</strong> keep the dimensions of each stage consistent (16, 2048, 2048, 256x256).</p>`,
+    ],
+    long: [
+      [
+        R`<p><strong>Concept:</strong> the autoencoder bounds generation quality.</p><p><strong>Pattern:</strong> compute the ratio; run the autoencoder alone; if it is blurry, fix it before touching the generator.</p><p><strong>Watch for:</strong> a good autoencoder with bad samples points back to the flow model.</p>`,
+        R`<p><strong>Concept:</strong> MSE and Euler update for a single step.</p><p><strong>Pattern:</strong> error vector, square, mean (or sum if told); position = $\Delta t\cdot v$; difference of positions.</p><p><strong>Watch for:</strong> mean versus sum conventions.</p>`,
+        R`<p><strong>Concept:</strong> early errors persist in deterministic integration.</p><p><strong>Pattern:</strong> start point + remaining steps x $\Delta t$ x true velocity, compare with the true endpoint.</p><p><strong>Watch for:</strong> real networks are not trained off-path, so the error may grow rather than stay constant.</p>`,
+        R`<p><strong>Concept:</strong> hypothesis-driven debugging.</p><p><strong>Pattern:</strong> pick a diagnostic that localises (per-step error, cheat test), then a fix targeting the cause, then interpret partial versus full recovery.</p><p><strong>Watch for:</strong> change one thing at a time so each outcome is interpretable.</p>`,
+      ],
+    ],
+  };
+})();
